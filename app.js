@@ -47,7 +47,7 @@ const openai = new OpenAI({
 const admin = process.env.admin;
 const dbUrl = process.env.DB_URL;
 
-mongoose.connect('mongodb://127.0.0.1:27017/test'
+mongoose.connect(dbUrl
 ).then(() => {
     console.log("connect to Alfred data base");
 }).catch((err) => {
@@ -68,7 +68,7 @@ app.use(express.json());
 const secret = 'thisshouldbeabettersecret!';
 
 const store = new MongoDBStore({
-    mongoUrl: 'mongodb://127.0.0.1:27017/test',
+    mongoUrl: dbUrl,
     secret,
     touchAfter: 24 * 60 * 60
 });
