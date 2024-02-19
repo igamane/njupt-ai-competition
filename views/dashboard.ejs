@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">   
+        <link rel="shortcut icon" type="image/png" href="./images/login-logo.png"> 
+    <title>Management Account</title>
+    <!-- Add links to CSS files and JavaScript here if needed -->
+</head>
+
+<body>
+    <!-- ====================== flash message ============-->
+    <% if (error && error.length) {%>
+		<div class="toast error active">
+			<div class="toast-content">
+				<span class="material-symbols-outlined check">
+					check
+					</span>
+				<div class="message">
+					<span class="text text-2">
+						<%= error %>
+					</span>
+				</div>
+			</div>
+			<span class="material-symbols-outlined close">
+				close
+				</span>
+			<div class="progress active"></div>
+		</div>
+	<% } %>
+    <% if (success && success.length) {%>
+        <div class="toast active">
+          <div class="toast-content">
+            <span class="material-symbols-outlined check">
+				check
+				</span>
+            <div class="message">
+              <span class="text text-2">
+                <%= success %>
+              </span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined close">
+			close
+			</span>
+          <div class="progress active"></div>
+        </div>
+        <% } %>
+	<% if (error && error.length || success && success.length) { %>
+				<script>
+					//  ====================== flash message ===========
+					const toast = document.querySelector(".toast");
+					const closeIcon = document.querySelector(".close");
+					const progress = document.querySelector(".progress");
+					let timer1, timer2;
+					timer1 = setTimeout(() => {
+						toast.classList.remove("active");
+					}, 7000); //1s = 1000 milliseconds
+					timer2 = setTimeout(() => {
+						progress.classList.remove("active");
+					}, 7300);
+					closeIcon.addEventListener("click", () => {
+						toast.classList.remove("active");
+						setTimeout(() => {
+							progress.classList.remove("active");
+						}, 300);
+						clearTimeout(timer1);
+						clearTimeout(timer2);
+					});
+				</script>
+				<% } %>
+    <div class="overlay"></div>
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-content">
+            <div class="sidebar-logo">
+                <img src="./images/logo.png" alt="OAM AI Logo" class="logo" />
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active overview">
+                        <a href="/admin">
+                            <span class="icon material-symbols-outlined">
+                                smart_toy
+                                </span>
+                            <span>Prompts</span>
+                        </a>
+                    </li>
+                    <li class="nav-item overview">
+                        <a href="/users">
+                            <span class="icon material-symbols-outlined">
+                                group
+                                </span>
+                                <span>Users</span>
+                        </a>
+                    </li>
+                    <!-- More nav items -->
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/logout">
+                    <span>Logout</span>
+                    <span class="icon material-symbols-outlined">
+                        arrow_right_alt
+                    </span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <span class="menu-toggle material-symbols-outlined">
+                menu
+            </span>
+        </header>
+        <div class="property-container">
+            <div class="button-container">
+                <button class="add-property-action modul-button">
+                    <span class="icon material-symbols-outlined">
+                        add
+                    </span>
+                    <p>Add Assistant</p>
+                </button>
+                <button class="add-property-action add-chat edit_modul-button">
+                    <span class="icon material-symbols-outlined">
+                        add
+                    </span>
+                    <p>Add ChatCompletion</p>
+                </button>
+            </div>
+            <h2 class="title-header">Assistants</h2>
+            <div class="property-list">
+                <% for (let assistant of assistantList) {%>  
+                    <div class="property-item">
+                        <div class="first-section">
+                            <div class="property-details">
+                                <h2 class="property-title"><%=assistant.assistantName%></h2>
+                                <ul class="property-status">
+                                    <span class="tit">Assistant ID</span>
+                                    <li class="green"><span class="circle"></span><span><%=assistant.assistantId%></span></li>
+                                    <span class="tit">Assistant description:</span>
+                                    <li class="green"><span class="circle"></span><span><%=assistant.assistantDescription%></span></li>
+                                    <span class="tit">Model:</span>
+                                    <li class="green"><span class="circle"></span><span><%=assistant.model%></span></li>
+                                    <span class="tit">TOOLS</span>
+                                    <% if(assistant.fileRetrieval && assistant.codeInterpreter) { %>
+                                        <li class="green"><span class="circle"></span><span>Code interpreter</span></li>
+                                        <li class="green"><span class="circle"></span><span>Retrieval</span></li>
+                                    <% } else if (!assistant.fileRetrieval && assistant.codeInterpreter) { %>
+                                        <li class="green"><span class="circle"></span><span>Code interpreter</span></li>
+                                    <% } else if (assistant.fileRetrieval && !assistant.codeInterpreter) { %> 
+                                        <li class="green"><span class="circle"></span><span>Retrieval</span></li>
+                                    <% } else { %>
+                                        <li class="green"><span class="circle"></span><span>None</span></li>
+                                    <% } %>
+                                </ul>
+                            </div>
+                            <% if(assistant.assistantPhoto.url) { %>
+                                <div class="property-thumbnail">
+                                    <img src="<%=assistant.assistantPhoto.url%>" alt="<%=assistant.assistantName%>" />
+                            <% } else { %>
+                                <div class="property-thumbnail area">
+                                    <span class="material-symbols-outlined icon">
+                                        smart_toy
+                                        </span>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="second-section">
+                                <div class="property-state ready">Assistant</div>
+                            <div class="property-address">
+                                <p class="tit">Assistant Instructions:</p>
+                                <p class="address">
+                                    <%=assistant.assistantInstructions%>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="delete-btn">
+                            <form action="/admin/assistant/<%=assistant._id%>?_method=delete" method="post">
+                                <button type="submit">
+                                    <span class="icon material-symbols-outlined">
+                                        delete
+                                        </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %> 
+                <% if (assistantList.length == 0 ) {%>
+                     <img class="robot-img" src="./images/assistant.svg" alt="">
+                <% } %> 
+            </div>
+            <h2 class="title-header">ChatCompletions</h2>
+            <div class="property-list">
+                <% if (chatCompletionList.length == 0 ) {%>
+                    <img class="robot-img" src="./images/chat.svg" alt="">
+               <% } %>
+                <% for (let chatCompletion of chatCompletionList) {%>  
+                    <div class="property-item">
+                        <div class="first-section">
+                            <div class="property-details">
+                                <h2 class="property-title"><%=chatCompletion.chatName%></h2>
+                                <ul class="property-status">
+                                    <span class="tit">Chat Description:</span>
+                                    <li class="red"><span class="circle"></span><span><%=chatCompletion.chatDescription%></span></li>
+                                    <span class="tit">Chat Prompt:</span>
+                                    <li class="red"><span class="circle"></span><span><%=chatCompletion.chatSystemPrompt%></span></li>
+                                    <span class="tit">Model:</span>
+                                    <li class="red"><span class="circle"></span><span><%=chatCompletion.model%></span></li>
+                                    
+                                </ul>
+                            </div>
+                            <% if(chatCompletion.chatPhoto.url) { %>
+                                <div class="property-thumbnail">
+                                    <img src="<%=chatCompletion.chatPhoto.url%>" alt="<%=chatCompletion.chatName%>" />
+                            <% } else { %>
+                                <div class="property-thumbnail area">
+                                    <span class="material-symbols-outlined icon">
+                                        smart_toy
+                                        </span>
+                            <% } %>
+                            </div>
+                        </div>
+                        <div class="second-section">
+                                <div class="property-state in-use">Chat</div>
+                            <div class="property-address">
+                                <p class="tit">Chat Prompt:</p>
+                                <p class="address">
+                                    <%=chatCompletion.chatSystemPrompt%>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="delete-btn">
+                            <form action="/admin/chat/<%=chatCompletion._id%>?_method=delete" method="post">
+                                <button type="submit">
+                                    <span class="icon material-symbols-outlined">
+                                        delete
+                                        </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% } %> 
+            </div>
+        </div>
+        <div class="modal__container">
+            <div class="modal-overlay"></div>
+            <div class="modal__content">
+                <h4 class="modal__title">Add New Assistant</h4>
+                <form action="/admin/assistant" method="post" class="propertyForm" enctype="multipart/form-data" id="property-form">
+                    <div class="form-body">
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="propertyPhoto">Assistant Photo</label>
+                                <div class="img-area" data-img="">
+                                    <span class="material-symbols-outlined icon">
+                                        smart_toy
+                                        </span>
+                                </div>
+                                <input type="file" name="assistantPhoto" id="propertyPhoto" accept="image/*" hidden="">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="propertyName">Assistant Name</label>
+                                <input type="text" id="propertyName"
+                                    placeholder="Enter an Assistant name" name="assistantName"
+                                    class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="propertyAddress">Assistant Instructions</label>
+                                <textarea name="assistantInstructions" class="input" placeholder="Enter Assistant's Instructions" id="assistantInstructions" cols="30" rows="3"></textarea>
+                                <!-- <input type="text" id="propertyAddress" placeholder="Enter Assistant's Instructions"
+                                    name="propertyAddress" class="input"> -->
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="hostWhatsapp">Assistant Description</label>
+                                <input type="text" id="hostWhatsapp"
+                                    placeholder="This description will be displayed to users"
+                                    name="assistantDescription" class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="select-box" id="select-box">
+                                <div class="options-container">
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-4-turbo-preview" value="gpt-4-turbo-preview" name="model">
+                                        <label for="gpt-4-turbo-preview">gpt-4-turbo-preview</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-4-1106-preview" value="gpt-4-1106-preview" name="model">
+                                        <label for="gpt-4-1106-preview">gpt-4-1106-preview</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-4-0613" value="gpt-4-0613" name="model">
+                                        <label for="gpt-4-0613">gpt-4-0613</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-4-0125-preview" value="gpt-4-0125-preview" name="model">
+                                        <label for="gpt-4-0125-preview">gpt-4-0125-preview</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-4" value="gpt-4" name="model">
+                                        <label for="gpt-4">gpt-4</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-16k-0613" value="gpt-3.5-turbo-16k-0613" name="model">
+                                        <label for="gpt-3.5-turbo-16k-0613">gpt-3.5-turbo-16k-0613</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-16k" value="gpt-3.5-turbo-16k" name="model">
+                                        <label for="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-1106" value="gpt-3.5-turbo-1106" name="model">
+                                        <label for="gpt-3.5-turbo-1106">gpt-3.5-turbo-1106</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-0613" value="gpt-3.5-turbo-0613" name="model">
+                                        <label for="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-0125" value="gpt-3.5-turbo-0125" name="model">
+                                        <label for="gpt-3.5-turbo-0125">gpt-3.5-turbo-0125</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo" value="gpt-3.5-turbo" name="model">
+                                        <label for="gpt-3.5-turbo">gpt-3.5-turbo</label>
+                                    </div>
+                                </div>
+                                <div class="selected">
+                                    <span><span class="material-symbols-outlined icon">
+                                        expand_less
+                                        </span></span>
+                                    <p>Model</p>
+                                </div>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <!-- <div class="error-container">
+                            <div class="input-field">
+                                <label for="model">Model</label>
+                                <select name="model" id="model">
+                                    <option value="gpt-4-turbo-preview">gpt-4-turbo-preview</option>
+                                    <option value="gpt-4-1106-preview">gpt-4-1106-preview</option>
+                                    <option value="gpt-4-0613">gpt-4-0613</option>
+                                    <option value="gpt-4-0125-preview">gpt-4-0125-preview</option>
+                                    <option value="gpt-4">gpt-4</option>
+                                    <option value="gpt-3.5-turbo-16k-0613">gpt-3.5-turbo-16k-0613</option>
+                                    <option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</option>
+                                    <option value="gpt-3.5-turbo-1106">gpt-3.5-turbo-1106</option>
+                                    <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
+                                    <option value="gpt-3.5-turbo-0125">gpt-3.5-turbo-0125</option>
+                                    <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+                                </select>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div> -->
+                        <div class="error-container upload-file">
+                            <div class="input-field">
+                                <input type="file" name="assistantFiles" id="additionalFiles" multiple/>
+                                <label for="additionalFiles">
+                                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                                    &nbsp;Choose Assistant's files
+                                </label>
+                                <div class="num-of-files">No Files Chosen</div>
+                                <ul id="files-list"></ul>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="usageLimit">Usage Limit</label>
+                                <input type="number" id="usageLimit"
+                                    placeholder="Entre the usage limit"
+                                    name="usageLimit" class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>                        
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label class="toggle" for="fileRetrieval">
+                                    <p id="toggleLabel">File retreival</p>
+                                    <input class="toggle__input" type="checkbox" name="fileRetrieval" checked id="fileRetrieval" onchange="toggleText()">
+                                    <div class="toggle__fill"></div>
+                                </label>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label class="toggle" for="codeInterpreter">
+                                    <p id="toggleLabel">Code Interpreter</p>
+                                    <input class="toggle__input" type="checkbox" name="codeInterpreter" checked id="codeInterpreter" onchange="toggleText()">
+                                    <div class="toggle__fill"></div>
+                                </label>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="reset" class="btn btn-secondary modal__close"><span>CANCEL</span></button>
+                        <input type="submit" class="btn save-btn" style="text-align: center;" value="SAVE">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="edit_modal__container">
+            <div class="edit_modal-overlay"></div>
+            <div class="modal__content">
+                <div class="error-container none">
+                    <div class="input-field fileCode">
+                        <label for="edit-propertyFileCode">Property file 16 digit passcode</label>
+                        <input type="text" id="edit-propertyFileCode"
+                            placeholder="" disabled
+                            class="input">
+                            <span id="copyButton" class="copy material-symbols-outlined">
+                                content_copy
+                                </span>
+                    </div>
+                    <div class="errormessage"></div>
+                </div>
+                <h4 class="modal__title">Add new ChatCompletion</h4>
+                <form action="/admin/chat" method="post" enctype="multipart/form-data" class="propertyForm" id="edit-property-form">
+                    <div class="form-body">
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="edit_propertyPhoto">Chat Photo</label>
+                                <div class="edit_img-area" data-img="">
+                                    <span class="material-symbols-outlined icon">
+                                        smart_toy
+                                        </span>
+                                </div>
+                                <input type="file" name="chatPhoto" id="edit_propertyPhoto" accept="image/*" hidden="">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="edit-propertyName">Chat Name</label>
+                                <input type="text" id="edit-propertyName"
+                                    placeholder="Enter a chat name" name="chatName"
+                                    class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="edit-propertyAddress">Chat system prompt</label>
+                                <textarea name="chatSystemPrompt" id="edit-propertyAddress" class="input" placeholder="Enter chat system prompt" id="assistantInstructions" cols="30" rows="3"></textarea>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="edit-hostWhatsapp">Chat description</label>
+                                <input type="text" id="edit-hostWhatsapp"
+                                    placeholder="Description will be shown to users"
+                                    name="chatDescription" class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="select-box" id="select-box">
+                                <div class="options-container2">
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-4-turbo-preview_2" value="gpt-4-turbo-preview" name="model">
+                                        <label for="gpt-4-turbo-preview_2">gpt-4-turbo-preview</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-4-1106-preview_2" value="gpt-4-1106-preview" name="model">
+                                        <label for="gpt-4-1106-preview_2">gpt-4-1106-preview</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-4-0613_2" value="gpt-4-0613" name="model">
+                                        <label for="gpt-4-0613_2">gpt-4-0613</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-4-0125-preview_2" value="gpt-4-0125-preview" name="model">
+                                        <label for="gpt-4-0125-preview_2">gpt-4-0125-preview</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-4_2" value="gpt-4" name="model">
+                                        <label for="gpt-4_2">gpt-4</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-16k-0613_2" value="gpt-3.5-turbo-16k-0613" name="model">
+                                        <label for="gpt-3.5-turbo-16k-0613_2">gpt-3.5-turbo-16k-0613</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-16k_2" value="gpt-3.5-turbo-16k" name="model">
+                                        <label for="gpt-3.5-turbo-16k_2">gpt-3.5-turbo-16k</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-1106_2" value="gpt-3.5-turbo-1106" name="model">
+                                        <label for="gpt-3.5-turbo-1106_2">gpt-3.5-turbo-1106</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-0613_2" value="gpt-3.5-turbo-0613" name="model">
+                                        <label for="gpt-3.5-turbo-0613_2">gpt-3.5-turbo-0613</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo-0125_2" value="gpt-3.5-turbo-0125" name="model">
+                                        <label for="gpt-3.5-turbo-0125_2">gpt-3.5-turbo-0125</label>
+                                    </div>
+                                    <div class="option2">
+                                        <input type="radio" class="radio" id="gpt-3.5-turbo_2" value="gpt-3.5-turbo" name="model">
+                                        <label for="gpt-3.5-turbo_2">gpt-3.5-turbo</label>
+                                    </div>
+                                </div>
+                                <div class="selected2">
+                                    <span><span class="material-symbols-outlined icon">
+                                        expand_less
+                                        </span></span>
+                                    <p>Model</p>
+                                </div>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="edit-usageLimit">Usage Limit</label>
+                                <input type="number" id="edit-usageLimit"
+                                    placeholder="Entre the usage limit"
+                                    name="usageLimit" class="input">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>    
+                    </div>
+                    <div class="form-buttons">
+                        <button type="reset" class="btn btn-secondary edit_modal__close"><span>CANCEL</span></button>
+                        <input type="submit" class="btn save-btn" style="text-align: center;" value="SAVE">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="./javascript/dashboard.js"></script>
+    <script src="./javascript/propertyValidation.js"></script>
+
+</body>
+
+</html>
