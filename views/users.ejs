@@ -134,6 +134,7 @@
                             <th>Email</th>
                             <th class="phone">Phone Number</th>
                             <th>Total Usage</th>
+                            <th>Usage Credit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -144,16 +145,108 @@
                             <td><%= user.username %></td>
                             <td class="phone"><%= user.phoneNumber %></td>
                             <td><%= user.totalUsage %></td>        
+                            <td class="delete-btn uers" data-userid="<%=user._id%>">
+                                <button class="btn add add-access">
+                                    <span class="material-symbols-outlined">
+                                        add
+                                        </span>
+                                </button>
+                                <button class="btn delete edit-access">
+                                    <span class="material-symbols-outlined">
+                                        delete
+                                        </span>
+                                </button>
+                            </td>
                         </tr>
                         <% } %> 
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="modal__container">
+            <div class="modal-overlay"></div>
+            <div class="modal__content">
+                <h4 class="modal__title">Set User Access Right</h4>
+                <form action="/admin/usage" method="post" class="propertyForm" id="property-form">
+                    <div class="form-body">
+                        <input type="text" id="userId" name="userId" style="display: none;" value="">
+                        <div class="error-container">
+                            <div class="select-box" id="select-box">
+                                <div class="options-container">
+                                    <% Object.keys(prompts).forEach(key => { %>
+                                        <% prompts[key].forEach(prompt => { %>
+                                            <div class="option">
+                                                <input type="radio" class="radio" id="<%= prompt._id %>" value="<%= prompt._id %>" name="prompt">
+                                                <label for="<%= prompt._id %>"><%= prompt.assistantName || prompt.chatName %></label>
+                                            </div>
+                                        <% }) %>
+                                    <% }) %>
+                                </div>
+                                <div class="selected">
+                                    <span><span class="material-symbols-outlined icon">
+                                        expand_less
+                                        </span></span>
+                                    <p>Select a Prompt</p>
+                                </div>
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                        <div class="error-container">
+                            <div class="input-field">
+                                <label for="usageLimit">Usage Limit</label>
+                                <input type="number" id="usageLimit"
+                                    placeholder="Entre the usage limit"
+                                    name="usageLimit" class="input access">
+                            </div>
+                            <div class="errormessage"></div>
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="reset" class="btn btn-secondary modal__close"><span>CANCEL</span></button>
+                        <input type="submit" class="btn save-btn" style="text-align: center;" value="SAVE">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="edit_modal__container">
+            <div class="edit_modal-overlay"></div>
+            <div class="modal__content edit-modal__content">
+                <h4 class="modal__title">Add new ChatCompletion</h4>
+                <div class="form-body">
+                    <div class="error-container">
+                        <div class="input-field">
+                            <label for="edit-propertyName">Prompt Name</label>
+                            <input type="text" id="edit-propertyName" class="input" disabled>
+                        </div>
+                        <div class="errormessage"></div>
+                    </div>
+                    <div class="error-container">
+                        <div class="input-field">
+                            <label for="usageLimit">Usage Limit</label>
+                            <input type="number" id="usageLimit" class="input" disabled>
+                        </div>
+                        <div class="errormessage"></div>
+                    </div>
+                    <form action="/admin/usage/delete?_method=Delete" style="margin: auto;" method="post">
+                        <input type="text" name="userId" value="" style="display: none;">
+                        <input type="text" name="promptId" value="" style="display: none;">
+                        <button class="btn delete delete-prompt">
+                            <span class="material-symbols-outlined">
+                                delete
+                                </span>
+                        </button>
+                    </form>                 
+                </div>
+                <div class="form-buttons">
+                    <button type="reset" class="btn btn-secondary edit_modal__close"><span>CANCEL</span></button>
+                    <input type="submit" class="btn save-btn" style="text-align: center;" value="SAVE">
+                </div>
+            </div>
+        </div>
     </main>
 
-    <script src="./javascript/settingsValidation.js"></script>
-    <script src="./javascript/settings.js"></script>
+    <script src="./javascript/user.js"></script>
 
 </body>
 

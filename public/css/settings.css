@@ -95,6 +95,9 @@
     text-align: start;
     border: 1.5px solid #cdcdcd;
 }
+.input-field .input.access {
+    text-align: center;
+}
 
 .input-field .input::placeholder {
     font-weight: 500;

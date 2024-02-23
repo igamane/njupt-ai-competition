@@ -1076,20 +1076,44 @@ img {
     color: #333;
 }
 
+.delete-btn.uers {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
 .delete-btn {
     width: 100%;
     display: flex;
-    justify-content: end;
+    justify-content: right;
     align-items: center;
     margin-top: 10px;
 }
 .delete-btn button {
-    background-color: red;
+    background-color: rgb(255, 13, 13);
     border: none;
     padding: 4px;
     border-radius: 8px;
     color: #fff;
     cursor: pointer;
+}
+.btn.delete-prompt {
+    background-color: rgb(255, 13, 13);
+}
+.delete-btn.uers button {
+    background-color: rgb(9, 190, 9);
+    border: none;
+    padding: 4px;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+}
+.delete-btn.uers button.add {
+    margin-right: 10px;
+}
+.delete-btn.uers button.delete {
+    background-color: rgb(255, 13, 13);
 }
 
 .robot-img {

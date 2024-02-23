@@ -31,7 +31,7 @@ uploadProfile.addEventListener('click', function () {
 
 inputFile.addEventListener('change', function () {
     console.log(this.files[0]);
-    const image = this.files[0]
+    const image = this.files[0] 
     if (image.size < 10000000) {
         const reader = new FileReader();
         reader.onload = () => {
