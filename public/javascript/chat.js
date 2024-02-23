@@ -74,7 +74,6 @@ const makeAssistantRequest = (chatElement, thread) => {
         }
         return response.json();
     }).then(data => {
-        console.log(data);
         const messageElement = chatElement.querySelector(".chat-response");
         messageElement.textContent = data.response;
         chatbox.scrollTo(0, chatbox.scrollHeight);
@@ -90,7 +89,6 @@ const makeChatRequest = (chatElement) => {
     const prompt = chatDiv.getAttribute('data-prompt');
     const model = chatDiv.getAttribute('data-model');
     const id = chatDiv.getAttribute('data-id');
-    console.log(prompt);
 
     const requestData = {
         model,
@@ -98,7 +96,6 @@ const makeChatRequest = (chatElement) => {
         prompt,
         id
     };
-    console.log(requestData);
 
     fetch(`${baseUrl}/get-chat-response`, {
         method: 'POST',
@@ -112,7 +109,6 @@ const makeChatRequest = (chatElement) => {
         }
         return response.json();
     }).then(data => {
-        console.log(data);
         const messageElement = chatElement.querySelector(".chat-response");
         messageElement.textContent = data.response;
         chatbox.scrollTo(0, chatbox.scrollHeight);
@@ -126,9 +122,7 @@ const generateAssistantResponse = async (chatElement) => {
         await fetch(`${baseUrl}/create-thread`)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data);
                 sessionStorage.setItem("thread_id", data.thread);
-                console.log("thread_id was not found, set to ", sessionStorage.getItem("thread_id"));
                 makeAssistantRequest(chatElement, sessionStorage.getItem("thread_id"));
             })
             .catch((e) => {
@@ -137,7 +131,6 @@ const generateAssistantResponse = async (chatElement) => {
             });
     } else {
         thread_id = sessionStorage.getItem("thread_id");
-        console.log("thread_id exists in sessionStorage:", sessionStorage.getItem("thread_id"));
         makeAssistantRequest(chatElement, sessionStorage.getItem("thread_id"));
     }
 }
@@ -167,7 +160,6 @@ const handleChat = () => {
             files.push(fileInput.files[i]);
         }
     }
-    console.log(files);
 
     // Clear the input textarea and set its height to default
     chatInput.value = "";
@@ -185,10 +177,8 @@ const handleChat = () => {
         const isAssistantDiv = document.querySelector('#inf');
         const isAssistant = isAssistantDiv.getAttribute('data-assistant');
         if (isAssistant == "true") {
-            console.log("assistant");
             generateAssistantResponse(incomingChatLi);
         } else {
-            console.log("chat");
             makeChatRequest(incomingChatLi);
         }
     }, 600);

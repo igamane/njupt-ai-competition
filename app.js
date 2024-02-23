@@ -860,7 +860,6 @@ app.post('/admin/usage', async (req, res) => {
         const existingUsageIndex = usageArray.findIndex(entry => entry.id.equals(modelFound._id));
 
         if (existingUsageIndex !== -1) {
-            console.log("$$$$$$$$$$$$$$$$");
             // Update existing usage if it already exists for the user
             usageArray[existingUsageIndex].usage = usageLimit; // Set usage to 1 as per your requirement to assign not increment
             usageArray[existingUsageIndex].total = 0; // Set usage to 1 as per your requirement to assign not increment

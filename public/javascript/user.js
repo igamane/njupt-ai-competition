@@ -86,8 +86,6 @@ async function fetchUserUsageDetails(id) {
             const modalContent = document.querySelector('.edit-modal__content');
             // Clear existing content
             modalContent.innerHTML = '<h4 class="modal__title">Edit User Access Right</h4>';
-            console.log(data);
-            console.log(data.data);
 
             if (!data.data || data.data.length === 0) {
                 const mes = document.createElement('p');

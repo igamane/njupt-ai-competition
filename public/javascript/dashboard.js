@@ -186,7 +186,6 @@ document.getElementById('copyButton').addEventListener('click', function () {
     try {
         const successful = document.execCommand('copy');
         const msg = successful ? 'successfully' : 'unsuccessfully';
-        console.log(`Copying text command was ${msg}.`);
     } catch (err) {
         console.log('Oops, unable to copy');
     }
@@ -227,8 +226,27 @@ options2.forEach(o => {
 		optionsContainer2.classList.remove('activec');
 	})
 })
-
  
+function truncateParagraphs(limit = 100) {
+    // Select all paragraphs with the class 'address'
+    const paragraphs = document.querySelectorAll('.address');
+    
+    // Loop through all selected paragraphs
+    paragraphs.forEach(paragraph => {
+        // Get the current text content of the paragraph
+        const content = paragraph.textContent;
+        
+        // Truncate the content if it's longer than the limit
+        const truncatedContent = content.length > limit ? content.substring(0, limit) + '...' : content;
+        
+        // Set the truncated content back on the paragraph
+        paragraph.textContent = truncatedContent;
+    });
+}
+
+// Call the function to truncate paragraphs
+truncateParagraphs(230);
+
 
 // const form = document.querySelector('.image-form');
 // const loading = document.querySelector('.loading');
