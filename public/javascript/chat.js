@@ -1,8 +1,15 @@
 const chatbotToggler = document.querySelector(".chatbot-toggler");
 const closeBtn = document.querySelector(".close-btn");
 const chatbox = document.querySelector(".chatbox");
-const chatInput = document.querySelector(".chat-input textarea");
 const sendChatBtn = document.querySelector(".chat-input span.send");
+const recordBtn = document.querySelector(".record");
+const chatInput = document.querySelector(".chat-input");
+let recording = false;
+let mediaRecorder;
+let userAudioBlob;
+let THREAD = "";
+let textResponse = null;
+
 
 // ***************** Base Url *****************
 const baseUrl = window.location.origin;
@@ -14,6 +21,51 @@ window.addEventListener('load', function() {
 let userMessage = null; // Variable to store user's message
 let files = [];
 const inputInitHeight = chatInput.scrollHeight;
+
+recordBtn.addEventListener("click", () => {
+    if (!recording) {
+        startRecording();
+        chatInput.classList.add('listening');
+    } else {
+        stopRecording();
+        chatInput.classList.remove('listening');
+    }
+});
+
+function startRecording() {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            mediaRecorder = new MediaRecorder(stream);
+            const audioChunks = [];
+            mediaRecorder.start();
+
+            mediaRecorder.addEventListener("dataavailable", event => {
+                audioChunks.push(event.data);
+            });
+
+            mediaRecorder.addEventListener("stop", () => {
+                userAudioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
+                displayUserMessage(URL.createObjectURL(userAudioBlob));
+            });
+
+            recordBtn.classList.add("recording");
+            // recordBtn.querySelector("p").innerHTML = "Listening...";
+            recording = true;
+        });
+}
+function convertTextForDisplay(text) {
+    // Replace text wrapped with ** to bold
+    text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    // Replace newline characters with <br> tags
+    text = text.replace(/\n/g, '<br>');
+    return text;
+}
+function stopRecording() {
+    mediaRecorder.stop();
+    // recordBtn.querySelector("p").innerHTML = "Start Speaking";
+    recordBtn.classList.remove("recording");
+    recording = false;
+}
 
 const createChatLi = (message, className) => {
     // Create a chat <li> element with passed message and className

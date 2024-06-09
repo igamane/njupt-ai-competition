@@ -34,7 +34,7 @@ html {
     right: 0;
     bottom: 0;
     width: 1px;
-    background: linear-gradient(to bottom, rgba(218, 123, 62, 0.8) 0%, rgba(218, 123, 62, 0.5) 35%, rgba(218, 123, 62, 0.1) 80%);
+    background: linear-gradient(to bottom, rgba(0, 70, 199, 0.8) 0%, rgba(21, 59, 130, 0.73) 35%, rgba(218, 123, 62, 0.1) 80%);
 }
 
 
@@ -103,7 +103,7 @@ img {
     position: absolute;
     width: 58px;
     height: 2px;
-    background: linear-gradient(to right, #DA7B3E, rgba(218, 123, 62, 0.7));
+    background: linear-gradient(to right, #004bb1, rgba(0, 70, 199, 0.8));
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -114,7 +114,7 @@ img {
     position: absolute;
     width: 28px;
     height: 2px;
-    background: linear-gradient(to right, #DA7B3E, rgba(218, 123, 62, 0.7));
+    background: linear-gradient(to right, #004bb1, rgba(0, 70, 199, 0.8));
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
@@ -132,7 +132,7 @@ a {
 .sidebar-footer a span.icon {
     font-size: 29px;
     margin-top: 6px;
-    color: #DA7B3E;
+    color: #004bb1;
 }
 
 .sidebar-footer {
@@ -230,7 +230,6 @@ a {
 }
 
 .property-container {
-    padding-top: 3rem;
     padding-bottom: 1.4rem;
     padding-left: 1rem;
 }
@@ -281,7 +280,7 @@ a {
     left: 0;
     bottom: 0;
     width: 9px;
-    background: linear-gradient(to bottom, rgba(218, 123, 62), rgba(218, 123, 62, 0.1));
+    background: linear-gradient(to bottom, rgba(0, 70, 199, 0.8), rgba(218, 123, 62, 0.1));
 }
 
 .property-item .first-section {
@@ -434,13 +433,13 @@ a {
     height: 50px;
     cursor: pointer;
     outline: none;
-    background-color: #DA7B3E;
+    background-color: #004bb1;
     border: none;
 }
 .add-chat {
     background-color: #fff;
-    color: #DA7B3E;
-    border: 2px solid #DA7B3E;
+    color: #004bb1;
+    border: 2px solid #004bb1;
 }
 .add-property-action .icon {
     color: #fff;
@@ -448,7 +447,7 @@ a {
     transition: all 0.3s ease;
 }
 .add-chat .icon {
-    color: #DA7B3E;
+    color: #004bb1;
 }
 
 .add-property-action p {
@@ -457,95 +456,7 @@ a {
     font-weight: 600;
 }
 .add-chat p {
-    color: #DA7B3E;
-}
-
-/* =================== Property Modal ================== */
-
-.modal__container, .edit_modal__container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, .5);
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    visibility: hidden;
-    opacity: 0;
-    z-index: 1000;
-}
-
-.show-modal {
-    visibility: visible;
-    opacity: 1;
-}
-
-.modal-overlay, .edit_modal-overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    right: 0;
-    z-index: 10;
-    background-color: #92929280;
-    overflow: hidden;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.show-modal-overlay {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal__content {
-    position: relative;
-    background-color: #fff;
-    width: 100%;
-    max-width: 400px;
-    max-height: 92vh;
-    padding: 1.4rem 1.5rem 1.25rem;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    margin: 0 1rem;
-    transform: scale(.3) translateY(10%);
-    z-index: 10000;
-    overflow-y: scroll;
-}
-
-.modal__content::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modal__content::-webkit-scrollbar-track {
-    background: #ffffff;
-}
-
-.modal__content::-webkit-scrollbar-thumb {
-    background-color: #D9D9D9;
-    border-radius: 50px;
-}
-
-.modal__content::-webkit-scrollbar-thumb:hover {
-    background: #cbcbcb;
-}
-
-.show-modal .modal__content {
-    transform: scale(1) translateY(0);
-}
-
-.modal__title {
-    margin-bottom: 1.3rem;
-    font-size: 23px;
-    line-height: 1.2;
-    color: #DA7B3E;
-    font-weight: 700;
-    text-align: center;
+    color: #004bb1;
 }
 
 .form-body {
@@ -597,7 +508,7 @@ a {
 }
 
 .input:focus {
-    border: 1.5px solid #DA7B3E;
+    border: 1.5px solid #004bb1;
 }
 
 .errormessage {
@@ -915,13 +826,13 @@ img {
 .upload-file label {
     display: block;
     position: relative;
-    background-color: #DA7B3E;
+    background-color: #004bb1;
     color: #ffffff;
     font-size: 14px;
     font-weight: 500;
     text-align: center;
     padding: 15px 25px;
-    margin: auto;
+    margin: auto; 
     border-radius: 15px;
     cursor: pointer;
 }
@@ -941,7 +852,7 @@ img {
 #files-list li, #edit-files-list li {
     font-weight: 500;
     background-color: #ffede2;
-    color: #DA7B3E;
+    color: #004bb1;
     margin-top: 1em;
     padding: 0.8em 1em;
     border-radius: 15px;
@@ -991,82 +902,6 @@ img {
     align-items: center;
     max-width: 400px;
     margin-bottom: 15px;
-}
-
-/* select =================== */
-.select-box {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	position: relative;
-    margin-top: 10px;
-}
-.select-box .options-container, .select-box .options-container2 {
-	background-color: #DA7B3E;
-	color: #fff;
-	width: 100%;
-	max-height: 0;
-	opacity: 0;
-	transition: all 0.4s;
-	border-radius: 10px;
-	overflow: hidden;
-	order: 1;
-	position: absolute;
-	top: calc(100% + 2px);
-	z-index: 60;
-}
-
-.select-box .options-container.activec, .select-box .options-container2.activec {
-	max-height: 200px;
-	overflow-y: scroll;
-	opacity: 1;
-}
-.select-box .options-container::-webkit-scrollbar, .select-box .options-container2::-webkit-scrollbar {
-	width: 8px;
-	background-color: #999;
-	border-radius: 10px 0px 0px 10px;
-
-}
-.select-box .options-container::-webkit-scrollbar-thumb, .select-box .options-container2::-webkit-scrollbar-thumb {
-	width: 8px;
-	background-color: #555;
-	border-radius: 10px;
-
-}
-.select-box .selected, .select-box .selected2 {
-	background-color: #DA7B3E;
-	border-radius: 10px;
-	margin-bottom: 8px;
-	color: #fff;
-	position: relative;
-	order: 0;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
-.select-box .selected .icon, .select-box .selected2 .icon {
-	transition: all 0.4s;
-}
-.select-box .selected p, .select-box .selected2 p {
-    width: calc(100% - 30px);
-    text-align: center;
-}
-.select-box .options-container.activec + .selected .icon, .select-box .options-container2.activec + .selected2 .icon {
-	transform: rotate(180deg);
-}
-
-
-.select-box .option, .selected, .select-box .option2, .selected2 {
-	padding: 12px 24px;
-}
-.select-box .option:hover, .select-box .option2:hover {
-	background-color: #ae6538;
-}
-.select-box label, .select-box, .selected, .selected2 {
-	cursor: pointer;
-}
-.select-box .option .radio, .select-box .option2 .radio {
-	display: none;
 }
 
 .title-header {
@@ -1121,122 +956,6 @@ img {
     margin: auto;
 }
 
-table {
-    table-layout: fixed;
-    font-size: 0.9rem;
-    min-width: 700px;
-    background-color: #DA7B3E;
-    text-align: center;
-    border-radius: 15px;
-    padding: 0px 0;
-    width: 100%;
-    transition: all 0.3s ease;
-    overflow: hidden;
-    border-collapse: collapse;
-}
-.table-container {
-    overflow-x: auto;
-    width: 100%;
-}
-.table-container::-webkit-scrollbar {
-    height: 10px;
-  }
-.table-container::-webkit-scrollbar-track {
-    background: #ede8e8;
-  }
-
-.table-container::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 50px;
-  }
-.table-container::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-table tbody {
-    height: auto;
-    max-height: 100%;
-    overflow-y: unset;
-    background-color: #fff;
-}
-table thead {
-    width: 100%;
-    padding-top: 17px;
-    color: white;
-}
-table tfoot {
-    width: 100%;
-}
-table tbody td {
-    height: 40px;
-    text-align: center;
-}
-table tbody td.organic p, table tbody td.affiliate p, table tbody td.invitaions p {
-    padding: 0;
-    color: #000;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 12px;
-    margin-bottom: 0;
-}
-table thead tr th {
-    padding-bottom: 13px;
-    padding-top: 13px;
-}
-/* table tbody td.organic p {
-    background-color: #89fc00;
-}
-table tbody td.affiliate p {
-    background-color: #ffb703;
-}
-table tbody td.invitaions p {
-    background-color: #48cae4;
-}
-th, td {
-    overflow: hidden;
-}
-th.id, td.id {
-    width: 50px;
-}
-th.source, td.source {
-    width: 55px;
-}
-th.invitations, td.invitations {
-    width: 60px;
-}
-th.activate, td.activate {
-    width: 80px;
-}
-th.level, td.level {
-    width: 75px;
-}
-th.date, td.date {
-    width: 140px;
-}
-th.phone, td.phone {
-    width: 90px;
-}
-th.name, td.name {
-    width: 140px;
-}
-th.marketer, td.marketer {
-    width: 120px;
-}
-th.paymentMt, td.paymentMt {
-    width: 90px;
-}
-th.verif, td.verif {
-    width: 70px;
-}
-th.more, td.more {
-    width: 80px;
-}
-th.balance, td.balance {
-    width: 140px;
-}
-th.ref, td.ref {
-    width: 120px;
-} */
-
 .prompt-second-section {
     width: 100%;
 }
@@ -1253,10 +972,11 @@ th.ref, td.ref {
     width: 100%;
 }
 .prompt-description {
-    color: #333;
-    font-size: 18px;
+    color: #777;
+    font-size: 16px;
     text-align: center;
     width: 100%;
+    font-style: italic;
 }
 .chat-btn {
     width: 100%;
@@ -1268,7 +988,7 @@ th.ref, td.ref {
     padding: 15px 20px;
     display: block;
     margin: 0 10px;
-    background-color: #DA7B3E;
+    background-color: #1068e4;
     color: #fff;
     font-size: 18px;
     font-weight: 600;
@@ -1276,7 +996,7 @@ th.ref, td.ref {
     transition: all 0.3s;
 }
 .chat-btn  a:hover {
-    background-color: #b86735;
+    background-color: #064295;
 }
 
 @media (max-width: 1100px) {

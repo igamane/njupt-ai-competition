@@ -12,8 +12,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">   
-        <link rel="shortcut icon" type="image/png" href="./images/login-logo.png"> 
-    <title>Prompts</title>
+        <link rel="shortcut icon" type="image/png" href="./images/logo.png"> 
+    <title>Nihao AI - Learn Chinese</title>
     <!-- Add links to CSS files and JavaScript here if needed -->
 </head>
 
@@ -91,7 +91,7 @@
                             <span class="icon material-symbols-outlined">
                                 smart_toy
                                 </span>
-                            <span>Prompts</span>
+                            <span>Speak</span>
                         </a>
                     </li>
                     <li class="nav-item overview">
@@ -138,67 +138,72 @@
             </div>
         </header>
         <div class="property-container">
-            <h2 class="title-header">Assistants</h2>
+            <h2 class="title-header">Learn by Speaking</h2>
             <div class="prompt-list">
-                <% for (let assistant of assistantList) {%>  
-                    <div class="prompt-item"> 
-                        <div class="first-section">
-                            <% if(assistant.assistantPhoto.url) { %>
-                                <div class="prompt-thumbnail">
-                                    <img src="<%=assistant.assistantPhoto.url%>" alt="<%=assistant.assistantName%>" />
-                            <% } else { %>
-                                <div class="prompt-thumbnail area">
-                                    <span class="material-symbols-outlined icon">
-                                        smart_toy
-                                        </span>
-                            <% } %>
-                            </div>
-                        </div>
-                        <div class="prompt-second-section">
-                            <div class="prompt-details">
-                                <h2 class="prompt-title"><%=assistant.assistantName%></h2>
-                                <p class="prompt-description"><%=assistant.assistantDescription%></p>
-                            </div>
-                        </div>
-                        <div class="chat-btn">
-                            <a href="/assistant/chat-interface/<%=assistant._id%>">Chat now</a>
+                <div class="prompt-item"> 
+                    <div class="first-section">
+                            <div class="prompt-thumbnail">
+                                <img src="./images/hsk1.png" alt="hsk 1" />
                         </div>
                     </div>
-                <% } %> 
-                <% if (assistantList.length == 0 ) {%>
-                     <img class="robot-img" src="./images/assistant.svg" alt="">
-                <% } %> 
-            </div>
-            <h2 class="title-header">Chatbot</h2>
-            <div class="prompt-list">
-                <% if (chatCompletionList.length == 0 ) {%>
-                    <img class="robot-img" src="./images/chat.svg" alt="">
-               <% } %>
-                <% for (let chatCompletion of chatCompletionList) {%>  
-                    <div class="prompt-item">
-                        <div class="first-section">
-                            <% if(chatCompletion.chatPhoto.url) { %>
-                                <div class="prompt-thumbnail">
-                                    <img src="<%=chatCompletion.chatPhoto.url%>" alt="<%=chatCompletion.chatName%>" />
-                            <% } else { %>
-                                <div class="prompt-thumbnail area">
-                                    <span class="material-symbols-outlined icon">
-                                        smart_toy
-                                        </span>
-                            <% } %>
-                            </div>
-                        </div>
-                        <div class="prompt-second-section">
-                            <div class="prompt-details">
-                                <h2 class="prompt-title"><%=chatCompletion.chatName%></h2>
-                                <p class="prompt-description"><%=chatCompletion.chatDescription%></p>
-                            </div>
-                        </div>
-                        <div class="chat-btn">
-                            <a href="/chat-completion/chat-interface/<%=chatCompletion._id%>">Chat now</a>
+                    <div class="prompt-second-section">
+                        <div class="prompt-details">
+                            <h2 class="prompt-title">HSK 1</h2>
+                            <p class="prompt-description">Kickstart your journey! Learn the fundamentals and start speaking basic Chinese right away</p>
                         </div>
                     </div>
-                <% } %> 
+                    <div class="chat-btn">
+                        <a href="/assistant/chat-interface/hsk1">Chat now</a>
+                    </div>
+                </div> 
+                <div class="prompt-item"> 
+                    <div class="first-section">
+                            <div class="prompt-thumbnail">
+                                <img src="./images/hsk2.png" alt="hsk 2" />
+                        </div>
+                    </div>
+                    <div class="prompt-second-section">
+                        <div class="prompt-details">
+                            <h2 class="prompt-title">HSK 2</h2>
+                            <p class="prompt-description">Build your basics! Perfect for beginners to start speaking and understanding simple Chinese</p>
+                        </div>
+                    </div>
+                    <div class="chat-btn">
+                        <a href="/assistant/chat-interface/hsk2">Chat now</a>
+                    </div>
+                </div> 
+                <div class="prompt-item"> 
+                    <div class="first-section">
+                            <div class="prompt-thumbnail">
+                                <img src="./images/hsk3.png" alt="hsk 3" />
+                        </div>
+                    </div>
+                    <div class="prompt-second-section">
+                        <div class="prompt-details">
+                            <h2 class="prompt-title">HSK 3</h2>
+                            <p class="prompt-description">Take it up a notch! Expand your vocabulary and improve your conversational skills</p>
+                        </div>
+                    </div>
+                    <div class="chat-btn">
+                        <a href="/assistant/chat-interface/hsk3">Chat now</a>
+                    </div>
+                </div> 
+                <div class="prompt-item"> 
+                    <div class="first-section">
+                            <div class="prompt-thumbnail">
+                                <img src="./images/hsk4.png" alt="hsk 4" />
+                        </div>
+                    </div>
+                    <div class="prompt-second-section">
+                        <div class="prompt-details">
+                            <h2 class="prompt-title">HSK 4</h2>
+                            <p class="prompt-description">Master the essentials! Get fluent with more complex sentences and everyday conversations</p>
+                        </div>
+                    </div>
+                    <div class="chat-btn">
+                        <a href="/assistant/chat-interface/hsk4">Chat now</a>
+                    </div>
+                </div> 
             </div>
         </div>
     </main>

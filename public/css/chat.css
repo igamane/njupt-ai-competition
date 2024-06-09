@@ -284,6 +284,59 @@ img {
   display: block;
 }
 
+.btn-recorder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  height: 60px;
+  padding: 20px;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #fff;
+  background-color: #1068e4;
+  max-width: 95px;
+  margin: auto;
+}
+
+.btn-recorder span {
+  font-size: 30px;
+}
+
+.record img {
+  width: 30px;
+  height: 30px;
+  display: none;
+}
+
+.record.recording img {
+  display: block;
+}
+
+.btn-recorder p {
+  display: none;
+}
+
+.record.recording span {
+  display: none;
+}
+
+.listening.chat-input textarea {
+  display: none;
+}
+.listening.chat-input .btn-recorder {
+  max-width: 450px;
+}
+.listening.chat-input .btn-recorder p{
+  display: block;
+}
+
 @media (max-width: 490px) {
   .chatbot-toggler {
     right: 20px;

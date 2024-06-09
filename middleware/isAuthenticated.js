@@ -11,8 +11,8 @@ module.exports = (req, res, next) => {
         req.flash('error', "Please log in to continue");
         return res.redirect('/login');
     }
-    if (req.user.username == admin) {
-       return res.redirect('/admin');
-    }
+    // if (req.user.username == admin) {
+    //    return res.redirect('/admin');
+    // }
     next();
 } 

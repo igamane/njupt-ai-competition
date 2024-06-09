@@ -18,7 +18,7 @@ html {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #FEFDF5;
+    background-color: #f5fbfe;
 }
 
 .background-image-part {
@@ -53,8 +53,8 @@ html {
 .login-form {
     position: relative;
     padding: 55px 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #FEFDF5;
+    box-shadow: rgba(17, 17, 26, 0.2) 2px 2px 16px;
+    background-color: #f5fbfe;
     border-radius: 15px;
     display: flex;
     justify-content: space-between;
@@ -147,7 +147,7 @@ html {
     outline: none;
 }
 .input-field:focus {
-    border: 1px solid #DA6464;
+    border: 1px solid #0880cc;
 }
 
 .login-button {
@@ -186,7 +186,7 @@ html {
     transition: all 0.2s ease;
 }
 .forgot-password-link:hover {
-    color: #DA6464;
+    color: #0880cc;
 }
 
 .signup-part {

@@ -29,16 +29,6 @@ const UserSchema = new schema({
     },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
-    chatUsage: [{
-        id: { type: ObjectId, ref: 'Chats' },
-        usage: Number,
-        total: Number
-    }],
-    assistantUsage: [{
-        id: { type: ObjectId, ref: 'Assistants' },
-        usage: Number,
-        total: Number
-    }],
 },
     { timestamps: true }
 )

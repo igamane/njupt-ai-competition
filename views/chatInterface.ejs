@@ -22,9 +22,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Hammersmith+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" href="./images/login-logo.png">
+    <link rel="shortcut icon" type="image/png" href="../../images/logo.png">
     <script src="../../javascript/chat.js" defer></script>
-</head>
+</head> 
 
 <body>
     <div class="chatbot">
@@ -61,34 +61,23 @@
                     <div class="message-info">                 
                       <div class="user-name"><h5><%=data.name%></h5></div>
                       <div class="message-text">
-                        <div class="chat-response">Hi there 👋 How can I help you today?</div>
+                        <div class="chat-response">Hi there 👋 How can I help you today?</div> 
                       </div>
                     </div>
                   </div>
             </li>
         </ul>
-        <% if(data.assistantId != undefined) {%>
-            <div style="display: none;" id="inf" data-assistant="true" data-id="<%=data.id%>" data-assistantid="<%=data.assistantId%>"></div>
-        <% } else {%>
-            <div style="display: none;" id="inf" data-assistant="false" data-prompt="<%=data.chatPrompt%>" data-id="<%=data.id%>" data-model="<%=data.model%>"></div>
-        <% } %>
         <div class="chat-input">
-            <div class="num-of-files">No Files Chosen</div>
             <div class="textarea">
-                <div class="error-container upload-file" <% if(data.assistantId == undefined) {%>  style="display: none;"  <% } %> >
-                    <div class="input-field">
-                        <input type="file" name="assistantFiles" id="additionalFiles" style="display: none;" multiple/>
-                        <label for="additionalFiles">
-                            <span class="icon material-symbols-outlined">
-                                attach_file
-                                </span>
-                        </label>
-                        <ul id="files-list"></ul>
+                <button class="btn-recorder record">
+                    <div class="icon">
+                        <span class="material-symbols-outlined">
+                            mic
+                        </span>
+                        <img src="../../images/bars.svg" alt="" />
                     </div>
-                    <div class="errormessage"></div>
-                </div>
-                     
-                <textarea placeholder="Enter a message..." spellcheck="false" required></textarea>
+                    <p>Listening...</p>
+                </button>
                 <span id="send-btn" class="material-symbols-rounded send">send</span>
             </div>
         </div>
