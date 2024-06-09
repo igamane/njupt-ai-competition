@@ -131,19 +131,11 @@ app.post('/signup', preRegistration, catchAsync(async (req, res, next) => {
         let user = new User({ username, firstName, lastName, phoneNumber });
         const registredUser = await User.register(user, password);
         console.log(registredUser);
-        console.log(admin)
 
-        if (registredUser.username == admin) {
-            req.login(registredUser, (err) => {
-                if (err) return next(err);
-                res.redirect('/admin');
-            })
-        } else {
-            req.login(registredUser, (err) => {
-                if (err) return next(err);
-                res.redirect('/dashboard');
-            })
-        }
+        req.login(registredUser, (err) => {
+            if (err) return next(err);
+            res.redirect('/dashboard');
+        })
     } catch (e) {
         req.flash('error', e.message);
         console.log(e);

@@ -2,8 +2,6 @@ if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
 }
  
-const admin = process.env.admin;
-
 module.exports = (req, res, next) => {
     res.locals.currentUser = req.user;
     // **********************
