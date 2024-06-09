@@ -260,7 +260,7 @@ a {
 }
 
 .prompt-item {
-    width: 300px;
+    width: 290px;
     background-color: #FEFDF5;
     border-radius: 12px;
     overflow: hidden;
@@ -997,6 +997,13 @@ img {
 }
 .chat-btn  a:hover {
     background-color: #064295;
+}
+
+.flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 20px;
 }
 
 @media (max-width: 1100px) {
