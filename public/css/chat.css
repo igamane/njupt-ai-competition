@@ -122,14 +122,14 @@ header h2 {
 .chatbox .incoming span {
   width: 32px;
   height: 32px;
-  color: #fff;
+  color: #000;
   cursor: default;
   text-align: center;
   line-height: 32px;
   align-self: flex-end;
-  background: #724ae8;
+  background: #ffffff;
   border-radius: 4px;
-  margin: 0 10px 7px 0;
+  margin: 10px 10px 0 0;
 }
 .chatbox .chat p {
   white-space: pre-wrap;
@@ -261,9 +261,9 @@ header h2 {
 .chat-response {
     font-family: 'Nunito Sans', sans-serif;
 }
-.chat-response {
+/* .chat-response {
     white-space: pre-wrap;
-}
+} */
 
 img {
     border-radius: 20px;

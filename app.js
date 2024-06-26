@@ -36,9 +36,16 @@ const fs = require('fs');
 const { promisify } = require('util');
 const { threadId } = require('worker_threads');
 const pipeline = promisify(require('stream').pipeline);
+const ffmpeg = require('fluent-ffmpeg');
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 const dbUrl = process.env.DB_URL;
+
+const uploads = multer({ dest: 'uploads/' });
+const ASSISTANT_ID = process.env.ASSISTANT_ID
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 mongoose.connect(dbUrl
 ).then(() => {
@@ -424,6 +431,166 @@ app.put('/settings/:id/edit', isAuthenticated, upload.single('profileImage'), ca
     })
 }));
 
+app.get('/create-thread', async (req, res) => {
+    console.log("thread creation...");
+    try {
+        const thread = await openai.beta.threads.create();
+        console.log(thread.id)
+        res.json({ threadId: thread.id });
+    } catch (error) {
+        console.error('Error creating thread:', error);
+        res.status(500).send('An error occurred while creating the thread');
+    }
+});
+
+app.post('/text-message', async (req, res) => {
+    console.log("text");
+    const threadId = req.body.threadId;
+    const userMessage = req.body.userMessage;
+    try {
+        // Generate chatbot response
+        const responseText = await generateResponse(userMessage, threadId);
+
+        // Convert response text to audio
+        const speech = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "alloy",
+            input: responseText,
+        });
+
+        const buffer = Buffer.from(await speech.arrayBuffer());
+        const responseAudioFilename = `response-${Date.now()}.mp3`;
+        const responseAudioPath = path.join(__dirname, '/public/uploads', responseAudioFilename);
+        fs.writeFileSync(responseAudioPath, buffer);
+
+        // Send the text response and audio file URL
+        res.json({
+            responseText: responseText,
+            audioUrl: `/uploads/${responseAudioFilename}`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+function removeSpecialCharacters(text) {
+    return text.replace(/[*#]/g, '');
+}
+
+
+app.post('/voice-message', uploads.single('audio'), async (req, res) => {
+    const threadId = req.body.threadId;
+    try {
+        // Convert audio to mp3 format
+        const mp3FilePath = path.join(__dirname, 'uploads', `${req.file.filename}.mp3`);
+        console.log(mp3FilePath);
+        console.log(mp3FilePath);
+        await new Promise((resolve, reject) => {
+            ffmpeg(req.file.path)
+            .toFormat('mp3')
+            .on('end', () => resolve())
+            .on('error', (err) => reject(err))
+            .save(mp3FilePath);
+        });
+        console.log(mp3FilePath);
+        
+        // Transcribe audio to text
+        const transcription = await openai.audio.transcriptions.create({
+            file: fs.createReadStream(mp3FilePath),
+            model: "whisper-1",
+            language: "en"
+        });
+
+        console.log(transcription.text);
+
+        // Generate chatbot response
+        const responseText = await generateResponse(transcription.text, threadId);
+
+        // Remove * and # characters from the response text
+        responseTextFormated = removeSpecialCharacters(responseText);
+
+        // Convert response text to audio
+        const speech = await openai.audio.speech.create({
+            model: "tts-1",
+            voice: "alloy",
+            input: responseTextFormated,
+        });
+
+        const buffer = Buffer.from(await speech.arrayBuffer());
+        const responseAudioFilename = `response-${Date.now()}.mp3`;
+        const responseAudioPath = path.join(__dirname, '/public/uploads', responseAudioFilename);
+        fs.writeFileSync(responseAudioPath, buffer);
+
+        // Send the text response and audio file URL
+        res.json({
+            responseText: responseText,
+            audioUrl: `/uploads/${responseAudioFilename}`
+        });
+
+        // Delete the uploaded and converted audio files
+        fs.unlink(req.file.path, (err) => {
+            if (err) console.error("Error deleting uploaded file:", err);
+        });
+        fs.unlink(mp3FilePath, (err) => {
+            if (err) console.error("Error deleting converted file:", err);
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('An error occurred');
+    }
+});
+
+
+async function generateResponse(userMessage, thread_id) {
+    const message = await openai.beta.threads.messages.create(
+        thread_id,
+        {
+            role: "user",
+            content: userMessage,
+        }
+    );
+    const run = await openai.beta.threads.runs.create(
+        thread_id,
+        {
+            assistant_id: ASSISTANT_ID,
+        }
+    );
+    const checkStatusAndPrintMessages = async (threadId, runId) => {
+        let runStatus;
+        let success = true;
+        while (true) {
+            runStatus = await openai.beta.threads.runs.retrieve(threadId, runId);
+            if (runStatus.status === "completed") {
+                console.log(runStatus.status);
+                break; // Exit the loop if the run status is completed
+            } else if (runStatus.status === "failed") {
+                console.log(runStatus);
+                success = false;
+                break;
+            }
+            console.log(runStatus.status);
+            await delay(1000); // Wait for 1 second before checking again
+        }
+        if (success) {
+            let messages = await openai.beta.threads.messages.list(threadId);
+            console.log(messages.data[0].content[0].text.value)
+            return messages.data[0].content[0].text.value
+        } else {
+            return "there is an issue generating the response"
+        }
+    };
+
+    function delay(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
+    }
+
+    // Call checkStatusAndPrintMessages function
+    const response = await checkStatusAndPrintMessages(thread_id, run.id);
+    return response;
+}
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
